@@ -1,10 +1,6 @@
 import com.codeborne.selenide.SelenideElement;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -18,28 +14,9 @@ public class CardDeliveryPositiveTest {
         return LocalDate.now().plusDays(days).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
     }
 
-    private WebDriver driver;
-
-    @BeforeAll
-    static void setUpAll() {
-        WebDriverManager.chromedriver().setup();
-        open("http://localhost:9999");
-    }
-
-    @BeforeEach
+     @BeforeEach
     void setUp() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--no-sandbox");
-        options.addArguments("--headless");
-        driver = new ChromeDriver(options);
-
-    }
-
-    @AfterEach
-    void tearDown() {
-        driver.quit();
-        driver = null;
+        open("http://localhost:9999");
     }
 
     @Test
@@ -84,7 +61,6 @@ public class CardDeliveryPositiveTest {
         $("[data-test-id=notification] .notification__content")
                 .shouldBe(visible, Duration.ofSeconds(15)).should(exactText("Встреча успешно забронирована на " + planningDate));
 
-
     }
 
     @Test
@@ -105,6 +81,7 @@ public class CardDeliveryPositiveTest {
     void shouldMeetingSuccessNameAndSurnameIsChange() {
         String planningDate = date(3);
         SelenideElement form = $("form");
+        form.$("[data-test-id=city] input").setValue("Санкт-Петербург");
         $("[data-test-id=date] input").doubleClick().sendKeys(Keys.BACK_SPACE, (planningDate));
         $("[data-test-id=name] input").setValue("Василий Иванов");
         $("[data-test-id=phone] input").setValue("+78888888888");

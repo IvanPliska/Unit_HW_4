@@ -1,10 +1,7 @@
 import com.codeborne.selenide.SelenideElement;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -18,28 +15,9 @@ public class CardDeliveryNegativeTest {
         return LocalDate.now().plusDays(days).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
     }
 
-    private WebDriver driver;
-
-    @BeforeAll
-    static void setUpAll() {
-        WebDriverManager.chromedriver().setup();
-        open("http://localhost:9999");
-    }
-
     @BeforeEach
     void setUp() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--no-sandbox");
-        options.addArguments("--headless");
-        driver = new ChromeDriver(options);
-
-    }
-
-    @AfterEach
-    void tearDown() {
-        driver.quit();
-        driver = null;
+        open("http://localhost:9999");
     }
 
     @Test
